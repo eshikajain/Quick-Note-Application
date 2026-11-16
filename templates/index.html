@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Notes | Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">✦</div>
+            <span>Quick<span class="brand-light">Notes</span></span>
+        </div>
+
+        <p class="menu-label">WORKSPACE</p>
+
+        <a href="/" class="nav-item active">
+            <span>▦</span> My Notes
+        </a>
+
+        <div class="sidebar-bottom">
+            <div class="profile-card">
+                <div class="avatar">
+                    {{ session['user_name'][0]|upper }}
+                </div>
+                <div class="profile-info">
+                    <strong>{{ session['user_name'] }}</strong>
+                    <small>Personal workspace</small>
+                </div>
+            </div>
+
+            <a href="{{ url_for('logout') }}" class="logout-link">
+                <span>↪</span> Logout
+            </a>
+        </div>
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">YOUR PERSONAL SPACE</p>
+                <h1>Good to see you, {{ session['user_name'] }}! <span>✦</span></h1>
+                <p class="welcome-text">Capture your thoughts, one note at a time.</p>
+            </div>
+
+            <div class="top-date" id="todayDate"></div>
+        </header>
+
+
+        <!-- Stats -->
+        <section class="stats-grid">
+            <div class="stat-card purple-stat">
+                <div class="stat-icon">▤</div>
+                <p>Total Notes</p>
+                <h2 id="totalNotes">0</h2>
+                <small>Your saved thoughts</small>
+            </div>
+
+            <div class="stat-card pink-stat">
+                <div class="stat-icon">✎</div>
+                <p>Workspace</p>
+                <h2>Personal</h2>
+                <small>Your private notes</small>
+            </div>
+        </section>
+
+
+        <!-- Create Note -->
+        <section class="create-section">
+            <div class="section-heading">
+                <div>
+                    <h2>Create a new note</h2>
+                    <p>What's on your mind today?</p>
+                </div>
+                <span class="sparkle">✧</span>
+            </div>
+
+            <div class="editor-box">
+                <textarea id="noteInput"
+                    placeholder="Start writing your thoughts here..."></textarea>
+
+                <div class="editor-footer">
+                    <span>✦ Your thoughts matter.</span>
+                    <button id="saveBtn" onclick="saveNote()">
+                        <span>＋</span> Save Note
+                    </button>
+                </div>
+                <p id="message"></p>
+            </div>
+        </section>
+
+
+        <!-- Notes Section -->
+        <section class="notes-section">
+            <div class="section-heading notes-heading">
+                <div>
+                    <h2>Your Notes</h2>
+                    <p>All your thoughts in one place.</p>
+                </div>
+
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input type="text" id="searchInput"
+                        placeholder="Search notes...">
+                </div>
+            </div>
+
+            <div id="notesList" class="notes-grid">
+                <p>Loading notes...</p>
+            </div>
+        </section>
+
+        <footer>
+            Made with <span>♥</span> for your thoughts.
+        </footer>
+
+    </main>
+</div>
+
+
+<!-- Edit Note Modal -->
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>Edit your note</h2>
+            <button class="close-btn" onclick="closeEditModal()">×</button>
+        </div>
+
+        <textarea id="editInput" placeholder="Update your note..."></textarea>
+
+        <div class="modal-actions">
+            <button class="cancel-btn" onclick="closeEditModal()">Cancel</button>
+            <button class="update-btn" onclick="updateNote()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
